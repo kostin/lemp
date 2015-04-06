@@ -10,9 +10,10 @@ cd /opt/scripts
 wget --quiet -N $DLPATH/install.sh
 wget --quiet -N $DLPATH/hostadd.sh
 wget --quiet -N $DLPATH/hostdel.sh
+wget --quiet -N $DLPATH/robots.txt
 wget --quiet -N $DLPATH/nginx-vhost-USERNAME.conf
 wget --quiet -N $DLPATH/php-fpm-pool-USERNAME.conf
-chmod +x /opt/scripts/*.sh
+chmod u+x /opt/scripts/*.sh
 
 killall -9 httpd
 yum -y remove httpd
