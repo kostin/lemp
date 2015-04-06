@@ -86,3 +86,11 @@ chkconfig mysql on
 iptables -F
 service iptables save
 service iptables restart
+
+/opt/scripts/hostdel.sh phpma
+/opt/scripts/hostadd.sh phpma
+
+cd /var/www/phpma
+wget -N http://sourceforge.net/projects/phpmyadmin/files/phpMyAdmin/4.4.0/phpMyAdmin-4.4.0-all-languages.tar.gz/download \
+-O /var/www/phpma/phpMyAdmin.tar.gz
+tar xfzp /var/www/phpma/phpMyAdmin.tar.gz -C /var/www/phpma/public --strip-components=1
