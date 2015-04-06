@@ -63,6 +63,8 @@ sed -i "s/USERNAME/$USER/g" /etc/nginx/conf.d/vhost-$USER.conf
 sed -i "s/ALIASES/$ALIASES/g" /etc/nginx/conf.d/vhost-$USER.conf
 sed -i "s/HOSTNAME/$HOST/g" /etc/nginx/conf.d/vhost-$USER.conf
 
+usermod -a -G $USER nginx
+
 mkdir -p /var/cache/nginx/$USER
 chown -R nginx:nginx /var/cache/nginx/$USER
 
