@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DLPATH='https://github.com/kostin/initial-server-setup/raw/master'
+DLPATH='https://github.com/kostin/lemp/raw/master'
 
 echo 'nameserver 8.8.8.8' >> /etc/resolv.conf
 echo 'nameserver 77.88.8.8' >> /etc/resolv.conf
@@ -41,8 +41,6 @@ echo "#!/bin/bash" > /etc/profile.d/php-cli.sh
 echo 'alias php="php -c /etc/php-cli.ini"' >> /etc/profile.d/php-cli.sh
 echo "magic_quotes_gpc = Off" > /etc/php-cli.ini
 
-service mysql start
-chkconfig mysql on
 service nginx start
 chkconfig nginx on
 service php-fpm start
@@ -58,3 +56,27 @@ else
 	mysqladmin -u root password $MYSQLPASS
 	mysql -p$MYSQLPASS -B -N -e "drop database test"	
 fi
+
+cd /etc
+wget --quiet -N $DLPATH/my.cnf 
+touch /var/log/mysql-slow.log 
+chown mysql:mysql /var/log/mysql-slow.log 
+chmod 640 /var/log/mysql-slow.log 
+rm -f /var/lib/mysql/ib_logfile* 
+rm -f /var/lib/mysql/mysql-bin.*
+
+service mysql start
+chkconfig mysql on
+
+mkdir -p /opt/scripts
+cd /opt/scripts
+wget --quiet -N $DLPATH/install.sh
+wget --quiet -N $DLPATH/hostadd.sh
+wget --quiet -N $DLPATH/hostdel.sh
+wget --quiet -N $DLPATH/nginx-vhost-USERNAME.conf
+wget --quiet -N $DLPATH/php-fpm-pool-USERNAME.conf
+chmod +x /opt/scripts/*.sh
+
+iptables -F
+service iptables save
+service iptables restart
