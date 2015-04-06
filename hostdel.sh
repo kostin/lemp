@@ -33,5 +33,6 @@ else
   tar cfzp $STORE_DIR/$USER-$DATE-files.tar.gz /var/www/$USER
   killall -9 -u $USER
   userdel -r $USER
+  groupdel $USER
   rm -rf /var/www/$USER
 fi
