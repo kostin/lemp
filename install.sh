@@ -87,17 +87,24 @@ iptables -F
 service iptables save
 service iptables restart
 
-/opt/scripts/hostdel.sh phpma
-/opt/scripts/hostadd.sh phpma
-cd /var/www/phpma
-wget -N http://sourceforge.net/projects/phpmyadmin/files/phpMyAdmin/4.4.0/phpMyAdmin-4.4.0-all-languages.tar.gz/download \
--O /var/www/phpma/phpMyAdmin.tar.gz
-tar xfzp /var/www/phpma/phpMyAdmin.tar.gz -C /var/www/phpma/public --strip-components=1
-cp /var/www/phpma/public/config.sample.inc.php /var/www/phpma/public/config.inc.php
-sed -ri "s/cfg\['blowfish_secret'\] = ''/cfg['blowfish_secret'] = '`pwgen 32 1`'/" /var/www/phpma/public/config.inc.php
-
-
 if [ ! -f /etc/ssl/server.key ] && [ ! -f /etc/ssl/server.crt ]; then
   openssl req -subj '/CN=./O=.' -new -newkey rsa:2048 -days 3650 -nodes -x509 \
   -keyout /etc/ssl/server.key -out /etc/ssl/server.crt
 fi
+
+/opt/scripts/hostdel.sh phpma
+/opt/scripts/hostdel.sh phpmyadmin
+/opt/scripts/hostadd.sh phpmyadmin
+cd /var/www/phpma
+wget http://sourceforge.net/projects/phpmyadmin/files/phpMyAdmin/4.4.0/phpMyAdmin-4.4.0-all-languages.tar.gz/download \
+-O /var/www/phpmyadmin/phpMyAdmin.tar.gz
+tar xfzp /var/www/phpmyadmin/phpMyAdmin.tar.gz -C /var/www/phpmyadmin/public --strip-components=1
+cp /var/www/phpmyadmin/public/config.sample.inc.php /var/www/phpmyadmin/public/config.inc.php
+sed -ri "s/cfg\['blowfish_secret'\] = ''/cfg['blowfish_secret'] = '`pwgen 32 1`'/" /var/www/phpmyadmin/public/config.inc.php
+
+cat /opt/scripts/nginx-vhost-phpMyAdmin.conf > /etc/nginx/conf.d/nginx-vhost-phpmyadmin.conf
+HOST=`hostname`
+sed -i "s/HOSTNAME/$HOST/g" /etc/nginx/conf.d/nginx-vhost-phpmyadmin.conf
+mysql -p$MYSQLPASS -e "drop database 'phpmyadmin_pub'; drop database 'phpmyadmin_dev'; drop user 'phpmyadmin'@'localhost';"
+rm -rf /var/www/phpmyadmin/dev
+service nginx restart
