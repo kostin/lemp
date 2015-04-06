@@ -107,17 +107,14 @@ cat /opt/scripts/nginx-vhost-phpMyAdmin.conf > /etc/nginx/conf.d/nginx-vhost-php
 HOST=`hostname`
 sed -i "s/HOSTNAME/$HOST/g" /etc/nginx/conf.d/nginx-vhost-phpmyadmin.conf
 #mysql -p$MYSQLPASS -e "drop database phpmyadmin_pub; drop database phpmyadmin_dev; drop user 'phpmyadmin'@'localhost';"
-mysql -p$MYSQLPASS -e "drop database phpmyadmin_dev;"
 rm -rf /var/www/phpmyadmin/dev
 service nginx restart
 
-replace $'// $cfg[\'Servers\'][$i][\'controluser\'] = \'pma\';' $'$cfg[\'Servers\'][$i][\'controluser\'] = \'phpmyadmin\';' \
--- /var/www/phpmyadmin/public/config.inc.php
-
-replace $'// $cfg[\'Servers\'][$i][\'controlpass\'] = \'pmapass\';' $'$cfg[\'Servers\'][$i][\'controlpass\'] = \'1234567890\';' \
--- /var/www/phpmyadmin/public/config.inc.php
-USRPASS=`cat /var/www/phpmyadmin/.hostconf/.password-user`
-sed -i "s/1234567890/$USRPASS/g" /var/www/phpmyadmin/public/config.inc.php
-
-replace $'// $cfg[\'Servers\'][$i][\'pmadb\'] = \'phpmyadmin\';' $'$cfg[\'Servers\'][$i][\'pmadb\'] = \'phpmyadmin\';' \
--- /var/www/phpmyadmin/public/config.inc.php
+#replace $'// $cfg[\'Servers\'][$i][\'controluser\'] = \'pma\';' $'$cfg[\'Servers\'][$i][\'controluser\'] = \'phpmyadmin\';' \
+#-- /var/www/phpmyadmin/public/config.inc.php
+#replace $'// $cfg[\'Servers\'][$i][\'controlpass\'] = \'pmapass\';' $'$cfg[\'Servers\'][$i][\'controlpass\'] = \'1234567890\';' \
+#-- /var/www/phpmyadmin/public/config.inc.php
+#USRPASS=`cat /var/www/phpmyadmin/.hostconf/.password-user`
+#sed -i "s/1234567890/$USRPASS/g" /var/www/phpmyadmin/public/config.inc.php
+#replace $'// $cfg[\'Servers\'][$i][\'pmadb\'] = \'phpmyadmin\';' $'$cfg[\'Servers\'][$i][\'pmadb\'] = \'phpmyadmin\';' \
+#-- /var/www/phpmyadmin/public/config.inc.php
