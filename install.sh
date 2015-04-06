@@ -41,9 +41,9 @@ echo "#!/bin/bash" > /etc/profile.d/php-cli.sh
 echo 'alias php="php -c /etc/php-cli.ini"' >> /etc/profile.d/php-cli.sh
 echo "magic_quotes_gpc = Off" > /etc/php-cli.ini
 
-service nginx start
+service nginx restart
 chkconfig nginx on
-service php-fpm start
+service php-fpm restart
 chkconfig php-fpm on
 
 if [ -f /root/.mysql-root-password ]; then 
@@ -65,7 +65,7 @@ chmod 640 /var/log/mysql-slow.log
 rm -f /var/lib/mysql/ib_logfile* 
 rm -f /var/lib/mysql/mysql-bin.*
 
-service mysql start
+service mysql restart
 chkconfig mysql on
 
 mkdir -p /opt/scripts
