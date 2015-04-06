@@ -36,7 +36,7 @@ if [ -n "$( mysql -u root -p$MYSQLPWD -B -N -e "select * from mysql.user where u
 fi
 
 USRPWD=`pwgen 16 1`
-useradd -b /var/www --shell /sbin/nologin --create-home $USER
+useradd -b /var/www --shell /usr/bin/lshell --create-home $USER
 echo $USRPWD | passwd --stdin $USER
 mkdir /var/www/$USER/public /var/www/$USER/dev /var/www/$USER/tmp /var/www/$USER/logs /var/www/$USER/.hostconf
 usermod -a -G $USER nginx
