@@ -43,7 +43,7 @@ fi
 
 yum -y update
 
-yum -y install pwgen screen git mc sysstat
+yum -y install pwgen screen git mc sysstat lshell
 yum -y install MariaDB-server
 yum -y install php55w-common php55w-opcache php55w-cli php55w-fpm php55w-gd php55w-mbstring php55w-mcrypt php55w-mysql php55w-pdo php55w-xml
 yum -y install nginx16
