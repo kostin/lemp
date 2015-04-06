@@ -57,6 +57,9 @@ wget --quiet -N $DLPATH/php.ini
 touch /var/log/phpmail.log
 chmod 666 /var/log/phpmail.log 
 
+cd /etc/logrotate.d
+wget --quiet -N $DLPATH/php-fpm-pool.logrotate
+
 service nginx restart
 chkconfig nginx on
 service php-fpm restart
