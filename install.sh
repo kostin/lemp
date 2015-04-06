@@ -95,3 +95,9 @@ wget -N http://sourceforge.net/projects/phpmyadmin/files/phpMyAdmin/4.4.0/phpMyA
 tar xfzp /var/www/phpma/phpMyAdmin.tar.gz -C /var/www/phpma/public --strip-components=1
 cp /var/www/phpma/public/config.sample.inc.php /var/www/phpma/public/config.inc.php
 sed -ri "s/cfg\['blowfish_secret'\] = ''/cfg['blowfish_secret'] = '`pwgen 32 1`'/" /var/www/phpma/public/config.inc.php
+
+
+if [ ! -f /etc/ssl/server.key ] && [ ! -f /etc/ssl/server.crt ]; then
+  openssl req -subj '/CN=./O=.' -new -newkey rsa:2048 -days 3650 -nodes -x509 \
+  -keyout /etc/ssl/server.key -out /etc/ssl/server.crt
+fi
