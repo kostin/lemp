@@ -38,7 +38,7 @@ fi
 USRPWD=`pwgen 16 1`
 useradd -b /var/www --shell /sbin/nologin --create-home $USER
 echo $USRPWD | passwd --stdin $USER
-mkdir /var/www/$USER/.hostconf /var/www/$USER/tmp /var/www/$USER/public /var/www/$USER/logs
+mkdir /var/www/$USER/.hostconf /var/www/$USER/tmp /var/www/$USER/logs /var/www/$USER/dev
 usermod -a -G $USER nginx
 
 MAINDB=$USER"_pub"
@@ -46,7 +46,7 @@ DEVDB=$USER"_dev"
 DBPWD=`pwgen 16 1`
 mysql -u root -p$MYSQLPWD -B -N -e "create user '$USER'@'localhost' identified by '$DBPWD'; create database $MAINDB; grant all on $MAINDB.* to '$USER'@'localhost'; create database $DEVDB; grant all on $DEVDB.* to '$USER'@'localhost';"
 
-ALIASES="$USER.$HOST www.$USER.$HOST"
+ALIASES=""
 if [ "$2" ]; then
   touch /var/www/$USER/.hostconf/.domains
   for i in $2
