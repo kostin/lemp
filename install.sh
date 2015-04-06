@@ -5,6 +5,15 @@ DLPATH='https://github.com/kostin/lemp/raw/master'
 echo 'nameserver 8.8.8.8' >> /etc/resolv.conf
 echo 'nameserver 77.88.8.8' >> /etc/resolv.conf
 
+mkdir -p /opt/scripts
+cd /opt/scripts
+wget --quiet -N $DLPATH/install.sh
+wget --quiet -N $DLPATH/hostadd.sh
+wget --quiet -N $DLPATH/hostdel.sh
+wget --quiet -N $DLPATH/nginx-vhost-USERNAME.conf
+wget --quiet -N $DLPATH/php-fpm-pool-USERNAME.conf
+chmod +x /opt/scripts/*.sh
+
 killall -9 httpd
 yum -y remove httpd
 yum -y install epel-release
@@ -72,15 +81,6 @@ rm -f /var/lib/mysql/mysql-bin.*
 
 service mysql restart
 chkconfig mysql on
-
-mkdir -p /opt/scripts
-cd /opt/scripts
-wget --quiet -N $DLPATH/install.sh
-wget --quiet -N $DLPATH/hostadd.sh
-wget --quiet -N $DLPATH/hostdel.sh
-wget --quiet -N $DLPATH/nginx-vhost-USERNAME.conf
-wget --quiet -N $DLPATH/php-fpm-pool-USERNAME.conf
-chmod +x /opt/scripts/*.sh
 
 iptables -F
 service iptables save
