@@ -41,6 +41,11 @@ echo "#!/bin/bash" > /etc/profile.d/php-cli.sh
 echo 'alias php="php -c /etc/php-cli.ini"' >> /etc/profile.d/php-cli.sh
 echo "magic_quotes_gpc = Off" > /etc/php-cli.ini
 
+cd /etc
+wget --quiet -N $DLPATH/php.ini 
+touch /var/log/phpmail.log
+chmod 666 /var/log/phpmail.log 
+
 service nginx restart
 chkconfig nginx on
 service php-fpm restart
