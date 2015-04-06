@@ -7,7 +7,7 @@ MYSQLPWD=`cat /root/.mysql-root-password`
 DATE=`date +%Y-%m-%d_%H-%M`
 USER=$1
 STORE_DIR='/backups/.deleted'
-mkdir -p STORE_DIR
+mkdir -p $STORE_DIR
 
 for DB in `mysql -p$MYSQLPWD -B -N -e "select Db from mysql.db where user = '$USER'"`
 do
