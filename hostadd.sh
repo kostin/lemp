@@ -39,9 +39,8 @@ fi
 USRPWD=`pwgen 16 1`
 useradd -b /var/www --shell /sbin/nologin --create-home $USER
 echo $USRPWD | passwd --stdin $USER
-mkdir /var/www/$USER/.hostconf
-
-mkdir /var/www/$USER/tmp /var/www/$USER/public /var/www/$USER/logs
+mkdir /var/www/$USER/.hostconf /var/www/$USER/tmp /var/www/$USER/public /var/www/$USER/logs
+usermod -a -G $USER nginx
 
 MAINDB=$USER"_pub"
 DEVDB=$USER"_dev"
@@ -49,7 +48,7 @@ DBPWD=`pwgen 16 1`
 mysql -u root -p$MYSQLPWD -B -N -e "create user '$USER'@'localhost' identified by '$DBPWD'; create database $MAINDB; grant all on $MAINDB.* to '$USER'@'localhost'; create database $DEVDB; grant all on $DEVDB.* to '$USER'@'localhost';"
 
 #Create HTTPD vhost
-ALIASES="www.$USER.$HOST"
+ALIASES="$USER.$HOST www.$USER.$HOST"
 if [ "$2" ]; then
 	touch /var/www/$USER/.hostconf/.domains
 	for i in $2
@@ -63,8 +62,6 @@ sed -i "s/USERNAME/$USER/g" /etc/nginx/conf.d/vhost-$USER.conf
 sed -i "s/ALIASES/$ALIASES/g" /etc/nginx/conf.d/vhost-$USER.conf
 sed -i "s/HOSTNAME/$HOST/g" /etc/nginx/conf.d/vhost-$USER.conf
 
-usermod -a -G $USER nginx
-
 mkdir -p /var/cache/nginx/$USER
 chown -R nginx:nginx /var/cache/nginx/$USER
 
@@ -73,16 +70,17 @@ sed -i "s/USERNAME/$USER/g" /etc/php-fpm.d/pool-$USER.conf
 touch /var/www/$USER/logs/php-fpm-slow.log
 touch /var/www/$USER/logs/php-fpm-error.log
 
-echo "User password: $USRPWD" 
-echo "MySQL password for user $USER: $DBPWD"
-
-echo "$USRPWD" > /var/www/$USER/.hostconf/.password-user
-echo "$DBPWD" > /var/www/$USER/.hostconf/.password-db
-
 chown -R $USER:$USER /var/www/$USER
+chmod 750 /var/www/$USER /var/www/$USER/public
 chown -R root:root /var/www/$USER/.hostconf
 chmod -R 400 /var/www/$USER/.hostconf
 chmod 500 /var/www/$USER/.hostconf
 
+echo "$USRPWD" > /var/www/$USER/.hostconf/.password-user
+echo "$DBPWD" > /var/www/$USER/.hostconf/.password-db
+
 /etc/init.d/nginx restart
 /etc/init.d/php-fpm restart
+
+echo "User password: $USRPWD" 
+echo "MySQL password for user $USER: $DBPWD"
