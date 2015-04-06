@@ -106,6 +106,6 @@ sed -ri "s/cfg\['blowfish_secret'\] = ''/cfg['blowfish_secret'] = '`pwgen 32 1`'
 cat /opt/scripts/nginx-vhost-phpMyAdmin.conf > /etc/nginx/conf.d/nginx-vhost-phpmyadmin.conf
 HOST=`hostname`
 sed -i "s/HOSTNAME/$HOST/g" /etc/nginx/conf.d/nginx-vhost-phpmyadmin.conf
-mysql -p$MYSQLPASS -e "drop database 'phpmyadmin_pub'; drop database 'phpmyadmin_dev'; drop user 'phpmyadmin'@'localhost';"
+mysql -p$MYSQLPASS -e "drop database phpmyadmin_pub; drop database phpmyadmin_dev; drop user 'phpmyadmin'@'localhost';"
 rm -rf /var/www/phpmyadmin/dev
 service nginx restart
