@@ -11,6 +11,7 @@ wget --quiet -N $DLPATH/install.sh
 wget --quiet -N $DLPATH/hostadd.sh
 wget --quiet -N $DLPATH/hostdel.sh
 wget --quiet -N $DLPATH/robots.txt
+wget --quiet -N $DLPATH/php-fpm-pool-phpMyAdmin.conf
 wget --quiet -N $DLPATH/nginx-vhost-USERNAME.conf
 wget --quiet -N $DLPATH/php-fpm-pool-USERNAME.conf
 chmod u+x /opt/scripts/*.sh
