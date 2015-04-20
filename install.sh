@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DLPATH='https://github.com/kostin/lemp/raw/master'
+DLPATH='https://github.com/kostin/lemp6/raw/master'
 
 echo 'nameserver 8.8.8.8' >> /etc/resolv.conf
 echo 'nameserver 77.88.8.8' >> /etc/resolv.conf
