@@ -121,3 +121,10 @@ service nginx restart
 #sed -i "s/1234567890/$USRPASS/g" /var/www/phpmyadmin/public/config.inc.php
 #replace $'// $cfg[\'Servers\'][$i][\'pmadb\'] = \'phpmyadmin\';' $'$cfg[\'Servers\'][$i][\'pmadb\'] = \'phpmyadmin\';' \
 #-- /var/www/phpmyadmin/public/config.inc.php
+
+yum -y install postfix
+yum -y remove sendmail
+setsebool -P httpd_can_sendmail 1
+setsebool -P httpd_can_network_connect 1
+chkconfig postfix on
+service postfix restart
