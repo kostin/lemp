@@ -53,7 +53,7 @@ echo 'alias php="php -c /etc/php-cli.ini"' >> /etc/profile.d/php-cli.sh
 echo "magic_quotes_gpc = Off" > /etc/php-cli.ini
 
 cd /etc
-wget --quiet -N $DLPATH/php.ini 
+wget --quiet -N $DLPATH/etc/php.ini 
 touch /var/log/phpmail.log
 chmod 666 /var/log/phpmail.log 
 
@@ -77,7 +77,7 @@ else
 fi
 
 cd /etc
-wget --quiet -N $DLPATH/my.cnf 
+wget --quiet -N $DLPATH/etc/my.cnf 
 touch /var/log/mysql-slow.log 
 chown mysql:mysql /var/log/mysql-slow.log 
 chmod 640 /var/log/mysql-slow.log 
