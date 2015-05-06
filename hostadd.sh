@@ -72,7 +72,8 @@ echo "$USRPWD" > /var/www/$USER/.hostconf/.password-user
 echo "$DBPWD" > /var/www/$USER/.hostconf/.password-db
 
 chown -R $USER:$USER /var/www/$USER
-chmod 750 /var/www/$USER /var/www/$USER/public /var/www/$USER/dev /var/www/$USER/tmp /var/www/$USER/logs
+chmod 750 /var/www/$USER /var/www/$USER/public /var/www/$USER/dev /var/www/$USER/tmp 
+chmod 770 /var/www/$USER/logs
 chown -R root:root /var/www/$USER/.hostconf
 chmod -R 400 /var/www/$USER/.hostconf
 chmod 500 /var/www/$USER/.hostconf
