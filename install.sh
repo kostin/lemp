@@ -9,6 +9,8 @@ iptables -F
 service iptables save
 service iptables restart
 
+ln -sf /usr/share/zoneinfo/Europe/Moscow /etc/localtime
+
 yum -y update
 yum -y install epel-release
 yum -y install rsync unzip pwgen screen git mc sysstat lshell nano curl
