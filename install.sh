@@ -11,7 +11,7 @@ service iptables restart
 
 yum -y update
 yum -y install epel-release
-yum -y install rsync unzip pwgen screen git mc sysstat lshell nano
+yum -y install rsync unzip pwgen screen git mc sysstat lshell nano curl
 
 mkdir -p /opt/scripts
 wget --no-check-certificate -O /tmp/master.zip ${DLPATH}
