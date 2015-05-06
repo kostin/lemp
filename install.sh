@@ -41,6 +41,9 @@ EOF
 fi
 
 yum -y install MariaDB-server
+
+rpm -Uvh https://mirror.webtatic.com/yum/el6/latest.rpm
+
 yum -y install php55w-common php55w-opcache php55w-cli php55w-fpm php55w-gd php55w-mbstring php55w-mcrypt php55w-mysql php55w-pdo php55w-xml
 yum -y install nginx16
 
@@ -52,8 +55,7 @@ cp /opt/scripts/etc/php.ini /etc/php.ini
 touch /var/log/phpmail.log
 chmod 666 /var/log/phpmail.log 
 
-cd /etc/logrotate.d
-cp /opt/scripts/etc/php-fpm-pool.logrotate /etc/php-fpm-pool.logrotate
+cp /opt/scripts/etc/php-fpm-pool.logrotate /etc/logrotate.d/php-fpm-pool.logrotate
 
 service nginx restart
 chkconfig nginx on
@@ -71,11 +73,7 @@ else
 	mysql -p$MYSQLPASS -B -N -e "drop database test"	
 fi
 
-cd /etc
 cp /opt/scripts/etc/my.cnf /etc/my.cnf 
-touch /var/log/mysql-slow.log 
-chown mysql:mysql /var/log/mysql-slow.log 
-chmod 640 /var/log/mysql-slow.log 
 rm -f /var/lib/mysql/ib_logfile* 
 rm -f /var/lib/mysql/mysql-bin.*
 
@@ -91,6 +89,7 @@ if [ ! -f /etc/ssl/server.key ] && [ ! -f /etc/ssl/server.crt ]; then
   -keyout /etc/ssl/server.key -out /etc/ssl/server.crt
 fi
 
+/opt/scripts/hostdel.sh phpmyadmin
 /opt/scripts/hostadd.sh phpmyadmin
 
 wget http://sourceforge.net/projects/phpmyadmin/files/phpMyAdmin/4.4.0/phpMyAdmin-4.4.0-all-languages.tar.gz/download \
@@ -99,7 +98,7 @@ tar xfzp /tmp/phpMyAdmin.tar.gz -C /var/www/phpmyadmin/public --strip-components
 cp /var/www/phpmyadmin/public/config.sample.inc.php /var/www/phpmyadmin/public/config.inc.php
 sed -ri "s/cfg\['blowfish_secret'\] = ''/cfg['blowfish_secret'] = '`pwgen 32 1`'/" /var/www/phpmyadmin/public/config.inc.php
 
-cat /opt/scripts/nginx-vhost-phpMyAdmin.conf > /etc/nginx/conf.d/nginx-vhost-phpmyadmin.conf
+cat /opt/scripts/templates/nginx-vhost-phpMyAdmin.conf > /etc/nginx/conf.d/nginx-vhost-phpmyadmin.conf
 HOST=`hostname`
 sed -i "s/HOSTNAME/${HOST}/g" /etc/nginx/conf.d/nginx-vhost-phpmyadmin.conf
 mysql -p$MYSQLPASS -e "drop database phpmyadmin_pub; drop database phpmyadmin_dev; drop user 'phpmyadmin'@'localhost';"
