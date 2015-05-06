@@ -5,6 +5,10 @@ DLPATH='https://github.com/kostin/lemp6/archive/master.zip'
 echo 'nameserver 8.8.8.8' >> /etc/resolv.conf
 echo 'nameserver 77.88.8.8' >> /etc/resolv.conf
 
+iptables -F
+service iptables save
+service iptables restart
+
 yum -y update
 yum -y install epel-release
 yum -y install rsync unzip pwgen screen git mc sysstat lshell nano
@@ -42,10 +46,27 @@ fi
 
 yum -y install MariaDB-server
 
+cp /opt/scripts/etc/my.cnf /etc/my.cnf 
+rm -f /var/lib/mysql/ib_logfile* 
+rm -f /var/lib/mysql/mysql-bin.*
+
+service mysql restart
+chkconfig mysql on
+
+if [ -f /root/.mysql-root-password ]; then 
+  MYSQLPASS=`cat /root/.mysql-root-password`	
+  echo 'MySQL root password already set up'
+else
+  MYSQLPASS=`pwgen 24 1`
+  echo $MYSQLPASS > /root/.mysql-root-password
+  echo "MySQL root password is $MYSQLPASS and it stored in /root/.mysql-root-password"
+  mysqladmin -u root password $MYSQLPASS
+  mysql -p$MYSQLPASS -B -N -e "drop database test"	
+fi
+
 rpm -Uvh https://mirror.webtatic.com/yum/el6/latest.rpm
 
 yum -y install php55w-common php55w-opcache php55w-cli php55w-fpm php55w-gd php55w-mbstring php55w-mcrypt php55w-mysql php55w-pdo php55w-xml
-yum -y install nginx16
 
 echo "#!/bin/bash" > /etc/profile.d/php-cli.sh
 echo 'alias php="php -c /etc/php-cli.ini"' >> /etc/profile.d/php-cli.sh
@@ -57,32 +78,13 @@ chmod 666 /var/log/phpmail.log
 
 cp /opt/scripts/etc/host.logrotate /etc/logrotate.d/host.logrotate
 
-service nginx restart
-chkconfig nginx on
 service php-fpm restart
 chkconfig php-fpm on
 
-if [ -f /root/.mysql-root-password ]; then 
-	MYSQLPASS=`cat /root/.mysql-root-password`	
-	echo 'MySQL root password already set up'
-else
-	MYSQLPASS=`pwgen 24 1`
-	echo $MYSQLPASS > /root/.mysql-root-password
-	echo "MySQL root password is $MYSQLPASS and it stored in /root/.mysql-root-password"
-	mysqladmin -u root password $MYSQLPASS
-	mysql -p$MYSQLPASS -B -N -e "drop database test"	
-fi
+yum -y install nginx16
 
-cp /opt/scripts/etc/my.cnf /etc/my.cnf 
-rm -f /var/lib/mysql/ib_logfile* 
-rm -f /var/lib/mysql/mysql-bin.*
-
-service mysql restart
-chkconfig mysql on
-
-iptables -F
-service iptables save
-service iptables restart
+service nginx restart
+chkconfig nginx on
 
 if [ ! -f /etc/ssl/server.key ] && [ ! -f /etc/ssl/server.crt ]; then
   openssl req -subj '/CN=./O=.' -new -newkey rsa:2048 -days 3650 -nodes -x509 \
