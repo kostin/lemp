@@ -55,7 +55,7 @@ cp /opt/scripts/etc/php.ini /etc/php.ini
 touch /var/log/phpmail.log
 chmod 666 /var/log/phpmail.log 
 
-cp /opt/scripts/etc/php-fpm-pool.logrotate /etc/logrotate.d/php-fpm-pool.logrotate
+cp /opt/scripts/etc/host.logrotate /etc/logrotate.d/host.logrotate
 
 service nginx restart
 chkconfig nginx on
