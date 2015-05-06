@@ -7,7 +7,7 @@ echo 'nameserver 77.88.8.8' >> /etc/resolv.conf
 
 yum -y update
 yum -y install epel-release
-yum -y install rsync unzip pwgen screen git mc sysstat lshell
+yum -y install rsync unzip pwgen screen git mc sysstat lshell nano
 
 mkdir -p /opt/scripts
 wget --no-check-certificate -O /tmp/master.zip ${DLPATH}
