@@ -1,0 +1,7 @@
+/var/www/*/logs/*.log {
+  missingok
+  weekly
+  rotate 50
+  notifempty
+  delaycompress
+}
