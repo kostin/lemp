@@ -13,6 +13,8 @@ yum -y update
 yum -y install epel-release
 yum -y install rsync unzip pwgen screen git mc sysstat lshell nano curl
 
+mkdir -p /var/www
+
 mkdir -p /opt/scripts
 wget --no-check-certificate -O /tmp/master.zip ${DLPATH}
 cd /tmp
@@ -22,6 +24,7 @@ chmod u+x /opt/scripts/*.sh
 
 killall -9 httpd
 yum -y remove httpd
+
 sed -i "s/mirrorlist=https/mirrorlist=http/" /etc/yum.repos.d/epel.repo
 
 rpm -Uvh https://mirror.webtatic.com/yum/el6/latest.rpm
