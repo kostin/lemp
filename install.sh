@@ -6,6 +6,7 @@ echo 'nameserver 8.8.8.8' >> /etc/resolv.conf
 echo 'nameserver 77.88.8.8' >> /etc/resolv.conf
 
 yum -y update
+yum -y install epel-release
 yum -y install rsync unzip pwgen screen git mc sysstat lshell
 
 mkdir -p /opt/scripts
@@ -17,7 +18,6 @@ chmod u+x /opt/scripts/*.sh
 
 killall -9 httpd
 yum -y remove httpd
-yum -y install epel-release
 sed -i "s/mirrorlist=https/mirrorlist=http/" /etc/yum.repos.d/epel.repo
 
 rpm -Uvh https://mirror.webtatic.com/yum/el6/latest.rpm
