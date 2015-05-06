@@ -25,14 +25,11 @@ rm -f /etc/php-fpm.d/pool-$USER.conf
 /etc/init.d/php-fpm restart
 rm -rf /var/cache/nginx/$USER
 
-if [ ! -d /var/www/$USER ]
-then
-  echo "Directory /var/www/$USER not exist!"
-  exit 0
-else 
+if [ -d /var/www/$USER ]; then
   tar cfzp $STORE_DIR/$USER-$DATE-files.tar.gz /var/www/$USER
-  killall -9 -u $USER
-  userdel -r $USER
-  groupdel $USER
-  rm -rf /var/www/$USER
 fi
+
+killall -9 -u $USER
+userdel -f -r $USER
+groupdel $USER
+rm -rf /var/www/$USER
