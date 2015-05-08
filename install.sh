@@ -74,7 +74,8 @@ fi
 
 rpm -Uvh https://mirror.webtatic.com/yum/el6/latest.rpm
 
-yum -y install php55w-common php55w-opcache php55w-cli php55w-fpm php55w-gd php55w-mbstring php55w-mcrypt php55w-mysql php55w-pdo php55w-xml
+yum -y install php55w-common php55w-opcache php55w-cli php55w-fpm php55w-gd php55w-mbstring \
+  php55w-mcrypt php55w-mysql php55w-pdo php55w-xml
 
 echo "#!/bin/bash" > /etc/profile.d/php-cli.sh
 echo 'alias php="php -c /etc/php-cli.ini"' >> /etc/profile.d/php-cli.sh
