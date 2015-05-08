@@ -47,8 +47,8 @@ DBPWD=`pwgen 16 1`
 mysql -u root -p${MYSQLPWD} -B -N -e "create user '$USER'@'localhost' identified by '$DBPWD'; create database $MAINDB; grant all on $MAINDB.* to '$USER'@'localhost'; create database $DEVDB; grant all on $DEVDB.* to '$USER'@'localhost';"
 
 ALIASES=""
+touch /var/www/$USER/.hostconf/.domains
 if [ "$2" ]; then
-  touch /var/www/$USER/.hostconf/.domains
   for i in $2
   do
     ALIASES="$ALIASES $i www.$i"
