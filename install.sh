@@ -15,11 +15,7 @@ yum -y update
 yum -y install epel-release
 yum -y install rsync unzip pwgen screen git mc sysstat lshell nano curl
 
-if [ ! -d /var/www ]; then
-  mkdir -p /var/www
-fi
-
-mkdir -p /opt/scripts
+mkdir -p /opt/scripts /var/www
 wget --no-check-certificate -O /tmp/master.zip ${DLPATH}
 cd /tmp
 unzip -o master.zip
