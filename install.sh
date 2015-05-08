@@ -23,7 +23,10 @@ rsync -a /tmp/lemp6-master/ /opt/scripts/
 chmod u+x /opt/scripts/*.sh 
 
 cp /opt/scripts/etc/lshell.conf /etc/lshell.conf
+
 cp /opt/scripts/etc/nginx.conf /etc/nginx/nginx.conf
+mkdir -p /etc/nginx/templates
+cp -a /opt/scripts/templates/nginx/* /etc/nginx/templates/
 
 killall -9 httpd
 yum -y remove httpd
