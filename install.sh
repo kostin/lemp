@@ -15,6 +15,9 @@ yum -y update
 yum -y install epel-release
 yum -y install rsync unzip pwgen screen git mc sysstat lshell nano curl
 
+cp /opt/scripts/etc/lshell.conf /etc/lshell.conf
+cp /opt/scripts/etc/nginx.conf /etc/nginx/nginx.conf
+
 mkdir -p /var/www
 
 mkdir -p /opt/scripts
