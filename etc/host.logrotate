@@ -1,7 +1,9 @@
 /var/www/*/logs/*.log {
   missingok
+  copytruncate
   weekly
   rotate 50
   notifempty
   delaycompress
+  compress
 }
