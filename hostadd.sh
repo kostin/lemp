@@ -1,5 +1,7 @@
 #!/bin/bash
 
+SCRPATH='/opt/scripts'
+
 USAGE="To create domains structure and configs you have to use next parameters:\n\t1). Username (lowercase alphabets and digits only, 14 symbols or less). \n\t2). Domain or domains (Ex.: \"test.com test2.com\")."
 if [ ! $1 ]; then echo -e $USAGE; exit 0; fi
 
