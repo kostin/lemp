@@ -55,7 +55,7 @@ if [ "$2" ]; then
     echo $i >> /var/www/$USER/.hostconf/.domains
   done
 fi
-cp /opt/scripts/templates/nginx-vhost-USERNAME.conf /etc/nginx/conf.d/vhost-$USER.conf
+cp ${SCRPATH}/templates/nginx-vhost-USERNAME.conf /etc/nginx/conf.d/vhost-$USER.conf
 sed -i "s/USERNAME/$USER/g" /etc/nginx/conf.d/vhost-$USER.conf
 sed -i "s/ALIASES/$ALIASES/g" /etc/nginx/conf.d/vhost-$USER.conf
 sed -i "s/HOSTNAME/$HOST/g" /etc/nginx/conf.d/vhost-$USER.conf
@@ -63,7 +63,7 @@ sed -i "s/HOSTNAME/$HOST/g" /etc/nginx/conf.d/vhost-$USER.conf
 mkdir -p /var/cache/nginx/$USER
 chown -R nginx:nginx /var/cache/nginx/$USER
 
-cp /opt/scripts/templates/php-fpm-pool-USERNAME.conf /etc/php-fpm.d/pool-$USER.conf
+cp ${SCRPATH}/templates/php-fpm-pool-USERNAME.conf /etc/php-fpm.d/pool-$USER.conf
 sed -i "s/USERNAME/$USER/g" /etc/php-fpm.d/pool-$USER.conf
 touch /var/www/$USER/logs/php-fpm-slow.log
 touch /var/www/$USER/logs/php-fpm-error.log
