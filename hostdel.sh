@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source $(dirname $0)/conf.sh
+
 usage="To remove user you need to use next parameters:\n\t1). Username. \nFor example:\n\t$0 testuser"
 if [ ! $1 ]; then echo -e $usage; exit 0; fi
 
