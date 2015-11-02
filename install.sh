@@ -1,6 +1,7 @@
 #!/bin/bash
 
 DLPATH='https://github.com/kostin/lemp6/archive/master.zip'
+SCRPATH='/opt/scripts'
 
 echo 'nameserver 8.8.8.8' >> /etc/resolv.conf
 echo 'nameserver 77.88.8.8' >> /etc/resolv.conf
@@ -15,18 +16,18 @@ yum -y update
 yum -y install epel-release
 yum -y install rsync unzip pwgen screen git mc sysstat lshell nano curl
 
-mkdir -p /opt/scripts /var/www
+mkdir -p ${SCRPATH} /var/www
 wget --no-check-certificate -O /tmp/master.zip ${DLPATH}
 cd /tmp
 unzip -o master.zip
-rsync -a /tmp/lemp6-master/ /opt/scripts/ 
-chmod u+x /opt/scripts/*.sh 
+rsync -a /tmp/lemp6-master/ ${SCRPATH}/
+chmod u+x ${SCRPATH}/*.sh 
 
-cp /opt/scripts/etc/lshell.conf /etc/lshell.conf
+cp ${SCRPATH}/etc/lshell.conf /etc/lshell.conf
 
-cp /opt/scripts/etc/nginx.conf /etc/nginx/nginx.conf
+cp ${SCRPATH}/etc/nginx.conf /etc/nginx/nginx.conf
 mkdir -p /etc/nginx/templates
-cp -a /opt/scripts/templates/nginx/* /etc/nginx/templates/
+cp -a ${SCRPATH}/templates/nginx/* /etc/nginx/templates/
 
 killall -9 httpd
 yum -y remove httpd
@@ -55,7 +56,7 @@ fi
 
 yum -y install MariaDB-server
 
-cp /opt/scripts/etc/my.cnf /etc/my.cnf 
+cp ${SCRPATH}/etc/my.cnf /etc/my.cnf 
 rm -f /var/lib/mysql/ib_logfile* 
 rm -f /var/lib/mysql/mysql-bin.*
 
@@ -82,11 +83,11 @@ echo "#!/bin/bash" > /etc/profile.d/php-cli.sh
 echo 'alias php="php -c /etc/php-cli.ini"' >> /etc/profile.d/php-cli.sh
 echo "magic_quotes_gpc = Off" > /etc/php-cli.ini
 
-cp /opt/scripts/etc/php.ini /etc/php.ini 
+cp ${SCRPATH}/etc/php.ini /etc/php.ini 
 touch /var/log/phpmail.log
 chmod 666 /var/log/phpmail.log 
 
-cp /opt/scripts/etc/host.logrotate /etc/logrotate.d/host.logrotate
+cp ${SCRPATH}/etc/host.logrotate /etc/logrotate.d/host.logrotate
 
 service php-fpm restart
 chkconfig php-fpm on
@@ -101,8 +102,8 @@ if [ ! -f /etc/ssl/server.key ] && [ ! -f /etc/ssl/server.crt ]; then
   -keyout /etc/ssl/server.key -out /etc/ssl/server.crt
 fi
 
-/opt/scripts/hostdel.sh phpmyadmin
-/opt/scripts/hostadd.sh phpmyadmin
+${SCRPATH}/hostdel.sh phpmyadmin
+${SCRPATH}/hostadd.sh phpmyadmin
 
 wget http://sourceforge.net/projects/phpmyadmin/files/phpMyAdmin/4.4.0/phpMyAdmin-4.4.0-all-languages.tar.gz/download \
 -O /tmp/phpMyAdmin.tar.gz
@@ -110,7 +111,7 @@ tar xfzp /tmp/phpMyAdmin.tar.gz -C /var/www/phpmyadmin/public --strip-components
 cp /var/www/phpmyadmin/public/config.sample.inc.php /var/www/phpmyadmin/public/config.inc.php
 sed -ri "s/cfg\['blowfish_secret'\] = ''/cfg['blowfish_secret'] = '`pwgen 32 1`'/" /var/www/phpmyadmin/public/config.inc.php
 
-cat /opt/scripts/templates/nginx-vhost-phpMyAdmin.conf > /etc/nginx/conf.d/nginx-vhost-phpmyadmin.conf
+cat ${SCRPATH}/templates/nginx-vhost-phpMyAdmin.conf > /etc/nginx/conf.d/nginx-vhost-phpmyadmin.conf
 HOST=`hostname`
 sed -i "s/HOSTNAME/${HOST}/g" /etc/nginx/conf.d/nginx-vhost-phpmyadmin.conf
 mysql -p$MYSQLPASS -e "drop database phpmyadmin_pub; drop database phpmyadmin_dev; drop user 'phpmyadmin'@'localhost';"
