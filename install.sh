@@ -1,7 +1,6 @@
 #!/bin/bash
 
-DLPATH='https://github.com/kostin/lemp6/archive/master.zip'
-SCRPATH='/opt/scripts'
+source $(dirname $0)/conf.sh
 
 echo 'nameserver 8.8.8.8' >> /etc/resolv.conf
 echo 'nameserver 77.88.8.8' >> /etc/resolv.conf
