@@ -6,7 +6,7 @@ yum install -y rsync unzip wget \
 && wget --no-check-certificate -O /tmp/master.zip \
    https://github.com/kostin/lemp6/archive/master.zip \
 && unzip -o master.zip \
-&& rsync -a /tmp/lemp6/ /opt/scripts/ \
+&& rsync -a /tmp/lemp6-master/ /opt/scripts/ \
 && chmod +x /opt/scripts/*.sh \
 && chmod +x /opt/scripts/*/*.sh \
 && /opt/scripts/install.sh
