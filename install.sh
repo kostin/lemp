@@ -24,10 +24,6 @@ chmod u+x ${SCRPATH}/*.sh
 
 cp ${SCRPATH}/etc/lshell.conf /etc/lshell.conf
 
-cp ${SCRPATH}/etc/nginx.conf /etc/nginx/nginx.conf
-mkdir -p /etc/nginx/templates
-cp -a ${SCRPATH}/templates/nginx/* /etc/nginx/templates/
-
 killall -9 httpd
 yum -y remove httpd
 
@@ -91,7 +87,19 @@ cp ${SCRPATH}/etc/host.logrotate /etc/logrotate.d/host.logrotate
 service php-fpm restart
 chkconfig php-fpm on
 
-yum -y install nginx16
+cat > /etc/yum.repos.d/nginx.repo <<EOF
+[nginx]
+name=nginx repo
+baseurl=http://nginx.org/packages/centos/$releasever/$basearch/
+gpgcheck=0
+enabled=1
+EOF
+
+yum -y install nginx
+
+cp ${SCRPATH}/etc/nginx.conf /etc/nginx/nginx.conf
+mkdir -p /etc/nginx/templates
+cp -a ${SCRPATH}/templates/nginx/* /etc/nginx/templates/
 
 service nginx restart
 chkconfig nginx on
