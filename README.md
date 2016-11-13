@@ -8,6 +8,5 @@ yum install -y rsync unzip wget \
 && unzip -o master.zip \
 && rsync -a /tmp/lemp6-master/ /opt/scripts/ \
 && chmod +x /opt/scripts/*.sh \
-&& chmod +x /opt/scripts/*/*.sh \
 && /opt/scripts/install.sh
 ```
