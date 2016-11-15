@@ -115,7 +115,7 @@ fi
 ${SCRPATH}/hostdel.sh phpmyadmin
 ${SCRPATH}/hostadd.sh phpmyadmin
 
-wget http://sourceforge.net/projects/phpmyadmin/files/phpMyAdmin/4.6.4/phpMyAdmin-4.6.4-all-languages.tar.gz/download \
+wget https://files.phpmyadmin.net/phpMyAdmin/4.6.4/phpMyAdmin-4.6.4-all-languages.tar.gz \
 -O /tmp/phpMyAdmin.tar.gz
 tar xfzp /tmp/phpMyAdmin.tar.gz -C /var/www/phpmyadmin/public --strip-components=1
 cp /var/www/phpmyadmin/public/config.sample.inc.php /var/www/phpmyadmin/public/config.inc.php
