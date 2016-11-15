@@ -35,7 +35,7 @@ if [ `uname -m` == 'x86_64' ]; then
 cat > /etc/yum.repos.d/MariaDB.repo <<EOF
 [mariadb]
 name = MariaDB
-baseurl = http://yum.mariadb.org/10.0/centos6-amd64
+baseurl = http://yum.mariadb.org/10.1/centos6-amd64
 gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
 gpgcheck=1
 EOF
@@ -43,7 +43,7 @@ else
 cat > /etc/yum.repos.d/MariaDB.repo <<EOF
 [mariadb]
 name = MariaDB
-baseurl = http://yum.mariadb.org/10.0/centos6-x86
+baseurl = http://yum.mariadb.org/10.1/centos6-x86
 gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
 gpgcheck=1
 EOF
