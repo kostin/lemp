@@ -71,8 +71,8 @@ fi
 
 rpm -Uvh https://mirror.webtatic.com/yum/el6/latest.rpm
 
-yum -y install php55w-common php55w-opcache php55w-cli php55w-fpm php55w-gd php55w-mbstring \
-  php55w-mcrypt php55w-mysql php55w-pdo php55w-xml php55w-soap
+yum -y install php56w-common php56w-opcache php56w-cli php56w-fpm php56w-gd php56w-mbstring \
+  php56w-mcrypt php56w-mysqlnd php56w-pdo php56w-xml php56w-soap
 
 echo "#!/bin/bash" > /etc/profile.d/php-cli.sh
 echo 'alias php="php -c /etc/php-cli.ini"' >> /etc/profile.d/php-cli.sh
@@ -87,15 +87,18 @@ cp ${SCRPATH}/etc/host.logrotate /etc/logrotate.d/host.logrotate
 service php-fpm restart
 chkconfig php-fpm on
 
-cat > /etc/yum.repos.d/nginx.repo <<EOF
-[nginx]
-name=nginx repo
-baseurl=http://nginx.org/packages/centos/6/\$basearch/
-gpgcheck=0
-enabled=1
-EOF
+#cat > /etc/yum.repos.d/nginx.repo <<EOF
+#[nginx]
+#name=nginx repo
+#baseurl=http://nginx.org/packages/centos/6/\$basearch/
+#gpgcheck=0
+#enabled=1
+#EOF
+#
+#yum -y install nginx
 
-yum -y install nginx
+yum -y install https://repo.aerisnetwork.com/stable/centos/6/x86_64/aeris-release-1.0-4.el6.noarch.rpm
+yum -y install nginx-more
 
 cp ${SCRPATH}/etc/nginx.conf /etc/nginx/nginx.conf
 mkdir -p /etc/nginx/templates
@@ -112,7 +115,7 @@ fi
 ${SCRPATH}/hostdel.sh phpmyadmin
 ${SCRPATH}/hostadd.sh phpmyadmin
 
-wget http://sourceforge.net/projects/phpmyadmin/files/phpMyAdmin/4.4.0/phpMyAdmin-4.4.0-all-languages.tar.gz/download \
+wget http://sourceforge.net/projects/phpmyadmin/files/phpMyAdmin/4.6.4/phpMyAdmin-4.6.4-all-languages.tar.gz/download \
 -O /tmp/phpMyAdmin.tar.gz
 tar xfzp /tmp/phpMyAdmin.tar.gz -C /var/www/phpmyadmin/public --strip-components=1
 cp /var/www/phpmyadmin/public/config.sample.inc.php /var/www/phpmyadmin/public/config.inc.php
